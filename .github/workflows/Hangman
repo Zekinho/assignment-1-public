@@ -1,0 +1,64 @@
+import java.util.Scanner;
+
+public class HangmanGame {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // First player enters the secret word
+        System.out.println("Enter the secret word:");
+        String secretWord = scanner.nextLine();
+
+        // Convert the secret word to lowercase
+        secretWord = secretWord.toLowerCase();
+
+        // Store the secret word in an array
+        char[] wordArray = secretWord.toCharArray();
+
+        // Initialize an array to store guessed letters
+        char[] guessedLetters = new char[wordArray.length];
+        for (int i = 0; i < guessedLetters.length; i++) {
+            guessedLetters[i] = '_';
+        }
+
+        int wrongGuesses = 6;
+
+        // Start the game loop
+        while (wrongGuesses > 0) {
+            // Display current progress
+            System.out.println("\nCurrent progress:");
+            for (char letter : guessedLetters) {
+                System.out.print(letter + " ");
+            }
+            System.out.println("\nYou have " + wrongGuesses + " wrong guesses left.");
+
+            // Player guesses a letter
+            System.out.print("Guess a letter: ");
+            char guess = scanner.nextLine().toLowerCase().charAt(0);
+
+            boolean found = false;
+
+            // Check if the guessed letter is in the word
+            for (int i = 0; i < wordArray.length; i++) {
+                if (wordArray[i] == guess) {
+                    guessedLetters[i] = guess;
+                    found = true;
+                }
+            }
+
+            // If the guessed letter is not in the word
+            if (!found) {
+                wrongGuesses--;
+                System.out.println("Wrong guess!");
+            }
+
+            // Check if the word has been completely guessed
+            if (String.valueOf(guessedLetters).equals(secretWord)) {
+                System.out.println("Congratulations! You've guessed the word: " + secretWord);
+                return;
+            }
+        }
+
+        // If the player runs out of guesses
+        System.out.println("Game over!");
+    }
+}
